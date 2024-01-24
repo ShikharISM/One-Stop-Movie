@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popular People</title>
+</head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+<style>
+    body {
+        overflow-x: hidden;
+    }
+
+    .popularpeoplecontainer {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+
+    }
+
+    .popularpeoplecontainer h2 {
+        margin: 0;
+        padding: 0;
+        color: rgb(4, 55, 97);
+        font-size: xx-large;
+        font-weight: bold;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+
+    #popularpeoplelist {
+        margin: 0;
+        padding: 0;
+        display: grid;
+        justify-content: space-between;
+        grid-gap: 50px 10px;
+        grid-template-columns: auto auto auto auto;
+        height: inherit;
+        width: 100vw;
+
+    }
+
+    .col-md-2-mb-2 {
+        width: auto;
+        display: flex;
+        justify-content: space-between;
+        font-size: larger;
+        font-weight: bold;
+
+
+    }
+
+    .col-md-2-mb-2 .card {
+        border: 3px solid beige;
+        border-radius: 10px;
+        box-shadow: 10px;
+    }
+
+    .card img {
+        width: 280px;
+    }
+
+    .card-name {
+        font-size: large;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+
+    .card-bodydetails {
+        max-height: 100%;
+        transform: translateY(0%);
+        display: none;
+        position: absolute;
+        margin-top: 20px;
+    }
+
+    .card {
+        background-color: rgb(4, 55, 97);
+        color: white;
+    }
+
+    .card-body:hover .card-bodydetails {
+        background-color: #4192d8;
+        font-style: italic;
+        font-weight: bold;
+        font-size: large;
+        max-height: 100%;
+        display: initial;
+        transform: translateY(-100%);
+        animation: overview 0.3s linear;
+        left: 0;
+
+
+    }
+
+    #modalopenbtn {
+       cursor: pointer;
+        background-color: rgba(10, 10, 10, 0.5);
+        color: white;
+    }
+
+
+    @keyframes overview {
+        0% {
+            transform: translateY(-80%);
+
+        }
+
+        50% {
+            transform: translateY(-90%);
+
+        }
+
+        100% {
+            transform: translateY(-100%);
+
+
+        }
+
+
+
+    }
+
+    .pagination {
+        display: flex;
+        margin: 10px 30px;
+        align-items: center;
+        justify-content: center;
+
+    }
+
+    .loadmore {
+        background-color: black;
+        color: antiquewhite;
+        cursor: pointer;
+        width: 200px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .searchbar {
+
+        justify-content: center;
+        display: flex;  
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    #searchinput {
+        width: 80vw;
+    }
+
+    #search-btn {
+        transform: translateX(1vh);
+    }
+    @media screen and (max-width:600px) {
+        #popularpeoplelist {
+            display: grid;
+            grid-template-columns: auto auto;
+            justify-content: inherit;
+            grid-gap: 0px;
+            height: inherit;
+
+        }
+
+        .card {
+            width: 195px;
+
+        }
+
+        .col-md-2-mb-2 #modalopenbtn img {
+            width: 190px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        .card-body{
+            width: 190px;
+        }
+
+        .card-rating {
+            transform: translateY(-10vw);
+        }
+
+        .user-ratingbtn {
+            transform: translateX(-9vh);
+        }
+
+        .user-watchlistbtn {
+            transform: translateX(-3vh);
+        }
+
+        #genreslist {
+            display: grid;
+            grid-template-columns: auto auto auto auto auto;
+
+        }
+    }
+</style>
+
+<body>
+
+    <div class="popularpeople">
+        <div class="popularpeoplecontainer">
+            <h2>Popular People</h2>
+        </div>
+        <!-- <div class="searchbar">
+            <input type="text" placeholder="Enter Person Name" id="searchinput">
+            <a href="searchmovie.html">
+                <button id="search-btn" class="btn btn-success" onclick="search()">Search</button>
+                <div id="searchResults" style="display: none;"></div>
+            </a>
+
+
+        </div> -->
+
+        <div id="popularpeoplelist">
+
+        </div>
+        <div class="pagination">
+            <div class="loadmore" id="loadmore">Load More</div>
+        </div>
+
+    </div>
+
+</body>
+<script>
+    var storedValue = localStorage.getItem("movie");
+    let modalCounter = 0;
+    const API_KEY = 'api_key=92b02f3c7b0e895f6fcff7dcb83fcaf4';
+    const BASE_URL = 'https://api.themoviedb.org/3';
+    const IMG_URL = "https://image.tmdb.org/t/p/w500";
+    const URL = BASE_URL + "/person/popular?" + API_KEY + "&page=" + Math.floor(Math.random() * 10 + 1);;
+    const load = document.getElementById("loadmore");
+    const SEARCH_URL = "https://api.themoviedb.org/3/search/multi?query=" + `${storedValue}` + "&" + API_KEY;
+    async function getpeoplelist(url) {
+        let response = await fetch(url);
+        let data = await response.json();
+        console.log(data.results);
+        var page = data.page;
+        console.log("page=" + page);
+        data.results.forEach(element => {
+            const PERSONAL_URL = BASE_URL + `/person/${element.id}?` + API_KEY;
+            const FAMOUSFOR_URL = BASE_URL + `/person/${element.id}/movie_credits?` + API_KEY;
+            async function personaldatalist() {
+                // console.log(modalCounter);
+                let response = await fetch(PERSONAL_URL);
+                let data = await response.json();
+                modalCounter++;
+                // console.log(modalCounter);
+                // console.log(data2);
+                // console.log(data2["birthday"]);  
+                var cardElement = document.createElement('div');
+                cardElement.className = 'col-md-2-mb-2';
+                cardElement.innerHTML = `
+                <div class="card">
+                    <div id="modalopenbtn" data-bs-toggle="modal" data-bs-target="#modal${modalCounter}">
+                  <img src="${IMG_URL + element.profile_path}" class="card-img-top" alt="Card Image">
+                </div>
+                 <div class="card-body">
+                     <h5 class="card-name">${element.name}</h5>
+                     <h5 class="card-birthday">BIRTHDAY:${data["birthday"]}</h5>
+                     
+                 </div>
+                </div> `;
+                document.getElementById("popularpeoplelist").appendChild(cardElement);
+                const modal = document.createElement("div");
+                modal.classList.add("modal", "fade");
+                modal.id = `modal${modalCounter}`;
+                modal.tabIndex = "-1";
+                modal.role = "dialog";
+                modal.setAttribute("aria-labelledby", `modal${modalCounter}Label`);
+                modal.setAttribute("aria-hidden", "&true");
+                // console.log(modalCounter);
+                modal.innerHTML = `
+      <div class="modal-dialog" >
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modal${modalCounter}Label">${element.name}</h5>
+          </div>
+          <div class="modal-body" id="modal${element.name}Label">     
+            <img src="${IMG_URL + element.profile_path}" class="img-fluid" alt="Modal Image">
+            <h5 class="card-birthday">BIRTHDAY:${data["birthday"]}</h5>
+            <h5 class="card-biography">BIOGRAPHY:<br>${data["biography"]}</h5>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    `;
+                // Append modal to the body
+                document.body.appendChild(modal);
+            }
+            personaldatalist()
+        })
+        load.addEventListener("click", () => {
+            page += Math.floor(Math.random() * 10 + 1);
+            let url = BASE_URL + "/person/popular?" + API_KEY + "&page=" + `${page}`
+            getpeoplelist(url);
+            console.log("page=" + page)
+        })
+    }
+    getpeoplelist(URL)
+    function search() {
+        console.log("clicked");
+        var searchinput = document.getElementById("searchinput").value;
+        displayResults(searchinput);
+        const moviename = document.getElementById("searchResults").innerHTML;
+        console.log(moviename);
+        window.localStorage.setItem("movie", moviename);
+    }
+
+    function displayResults(query) {
+        var resultsContainer = document.getElementById("searchResults");
+        var results = query;
+        resultsContainer.innerHTML = results;
+        // console.log(document.getElementById("searchResults").innerHTML);
+    }
+    // var previousPage = localStorage.getItem('previousPage');
+    // if (previousPage) {
+    //     window.location.href = previousPage;
+    // } else {
+    //     // Default redirection (change this to the desired default page)
+    //     window.location.href = 'Cyberlabs project/index.html';
+    // }
+    // async function famousfordatalist(url) {
+    //     let response3 = await fetch(url);
+    //     let data3 = await response3.json();
+    // }
+    // famousfordatalist(FAMOUSFOR_URL);
+</script>
+
+</html>

@@ -1,0 +1,457 @@
+  body {
+    overflow-x: hidden;
+  }
+
+  nav {
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(4, 55, 97);
+    height: 12vh;
+  }
+
+  /* #login {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: larger;
+  transform: translateX(90px) translateY(15px);
+  height: 30px;
+}
+
+#loginlink {
+  text-decoration: none;
+  color: antiquewhite;
+  height: 30px;
+}
+
+#join {
+  display: flex;
+  transform: translateX(160px) translateY(15px);
+  color: skyblue;
+  height: 30px;
+
+}
+
+#joinlink {
+  color: antiquewhite;
+  text-decoration: none;
+  font-size: larger;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  height: 30px;
+} */
+  .card-modalcastdetails {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+  }
+
+  .card-castdetailsimage img {
+    transform: translateX(100px);
+    width: 30%;
+    margin: 20px;
+  }
+
+  .card-rating {
+    position: absolute;
+    top: 265px;
+    right: 5px;
+    font-size: small;
+  }
+
+  .card-modalreleasedate {
+    margin-top: 3px;
+  }
+
+  .card-body svg {
+    cursor: pointer;
+  }
+
+  .btn-group {
+    display: flex;
+    transform: translateX(3px);
+    justify-content: center;
+    align-items: center;
+    margin: 8px;
+  }
+
+  .movieslist {
+    width: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+
+  .searchbar {
+    transform: translateX(10px);
+    justify-content: center;
+    display: flex;
+    align-items: center;
+  }
+
+  #searchinput {
+    width: 260px;
+  }
+
+  #search-btn {
+    transform: translateX(0.5vh);
+  }
+
+
+  .title-welcome {
+    margin: 0px 80px;
+    padding: 0;
+    display: flex;
+    font-size: large;
+    font-weight: bolder;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    justify-content: center;
+    align-items: center;
+    height: 45vh;
+    background-color: black;
+    color: whitesmoke;
+    background-image: url("https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    background-repeat: round;
+    background-size: cover;
+  }
+
+  .title-welcome h2 {
+    margin: -10px;
+    padding: 0px;
+  }
+
+  .title-welcome h3 {
+    margin: 0;
+    padding: 0;
+    transform: translateX(-135px) translateY(40px);
+  }
+
+  #popularmovies {
+    /* overflow-y: scroll;
+  overflow-x: hidden; */
+    display: flex;
+  }
+
+  #popmoviedata {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    /* border: 1px solid red; */
+    height: inherit;
+    width: 100vw;
+  }
+
+  #poptvdata {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* border: 1px solid red; */
+    justify-content: space-evenly;
+
+    height: inherit;
+    width: 100vw;
+  }
+
+
+
+  .popular h4 {
+    font-size: xx-large;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    transform: translateX(30px) translateY(15px);
+    width: 110px;
+    height: 30px;
+  }
+
+  .popularcontainer {
+    width: 100vw;
+    height: 59px;
+  }
+
+  #top-ratedmovies {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: inherit;
+    width: 100vw;
+  }
+
+  #topmoviedata,
+  #toptvdata {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+    height: inherit;
+    width: 100vw;
+  }
+
+  .toprated h4 {
+    font-size: xx-large;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    transform: translateX(30px) translateY(15px);
+    width: 250px;
+    height: 30px;
+  }
+
+  .topratedcontainer {
+    width: 100vw;
+    height: 59px;
+  }
+
+  .card-text {
+    max-height: 100%;
+    transform: translateY(0%);
+    display: none;
+    position: absolute;
+    margin-top: 20px;
+
+  }
+
+  .card-modalreleasedate {
+    font-size: large;
+    padding-bottom: 20px;
+    color: green;
+  }
+
+  /* .card-body:hover .card-text {
+  background-color: aliceblue;
+  font-style: italic;
+  font-weight: bold;
+  font-size: small;
+  max-height: 100%;
+  display: initial;
+  transform: translateY(-100%);
+  left: 0;
+  animation: overview 0.3s linear;
+
+}
+
+@keyframes overview {
+  0% {
+    transform: translateY(-80%);
+  }
+
+  50% {
+    transform: translateY(-90%);
+  }
+
+  100% {
+    transform: translateY(-100%);
+  }
+
+
+} */
+
+  #modalopenbtn {
+    border: none;
+    cursor: pointer;
+  }
+
+  .upcomingcontainer {
+    width: 100vw;
+    height: 59px;
+  }
+
+  .upcoming h4 {
+    font-size: xx-large;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    transform: translateX(30px) translateY(15px);
+    width: 250px;
+    height: 30px;
+  }
+
+  #upcomingmovies {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: inherit;
+    width: 100vw;
+  }
+
+  #mov-tv-type {
+    transform: translateX(200px) translateY(-35px);
+  }
+
+  .col-md-2-mb-2 {
+    width: 14%;
+  }
+
+  .logo {
+    height: 70px;
+  }
+
+  .logo img {
+    width: 180px;
+    margin-top: 10px;
+
+  }
+
+  .user-ratingbtn {
+    margin-top: 15px;
+    margin-left: 45px;
+    background-color: aquamarine;
+    font-size: x-small;
+
+  }
+
+  .user-ratinginputbar {
+
+    justify-content: center;
+    align-items: center;
+    display: none;
+
+  }
+
+  .user-ratinginputbar select {
+    font-size: small;
+    margin-top: 10px;
+  }
+
+  #ratingsubmit-btn {
+    margin-top: 10px;
+    font-size: small;
+    width: 55px;
+    height: 30px;
+  }
+
+  .user-watchlistbtn {
+    margin-top: 15px;
+    margin-left: 45px;
+    background-color: aquamarine;
+    font-size: x-small;
+
+  }
+
+  #signoutbutton {
+    margin-left: 30px;
+  }
+
+  .signinbtn {
+    display: flex;
+    width: inherit;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+
+  }
+
+  .signinbtn #signinbutton {
+    transform: translateX(25px) translateY(12px);
+  }
+
+  .signinbtn #signoutbutton {
+    transform: translateX(5px) translateY(12px);
+  }
+
+  @media screen and (max-width:500px) {
+    body {
+      overflow-x: hidden;
+    }
+
+    nav {
+      height: 37vh;
+    }
+
+    .movieslist {
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      width: inherit;
+      height: 70px;
+      transform: translateX(-180px) translateY(50px);
+      z-index: 1;
+    }
+
+    .btn-group {
+      margin-top: 20px;
+      margin-left: 0px;
+      z-index: 1;
+    }
+
+    .searchbar {
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      transform: translateX(-570px) translateY(120px);
+      height: 30px;
+      /* z-index: -1; */
+    }
+
+    .signinbtn {
+      transform: translateX(-620px) translateY(145px);
+    }
+
+    .title-welcome {
+      display: none;
+    }
+
+    .title-welcome h2,
+    h3 {
+      display: none;
+    }
+
+    #popmoviedata,
+    #topmoviedata,
+    #upcomingmovies {
+      display: grid;
+      grid-template-columns: auto auto auto;
+    }
+
+    #poptvdata {
+      display: grid;
+      grid-template-columns: auto auto;
+    }
+
+    .col-md-2-mb-2 #modalopenbtn {
+      width: 130px;
+    }
+
+    .card {
+      width: 130px;
+    }
+
+    .card-body {
+      width: 150px;
+    }
+
+    .card-rating {
+      transform: translateY(-10vw);
+    }
+
+    .user-ratingbtn,
+    .user-watchlistbtn {
+      transform: translateX(-1vh);
+    }
+
+    .modal-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+    }
+    #card-cast{
+        width: 400px;
+    }
+
+  }

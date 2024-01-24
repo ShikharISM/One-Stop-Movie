@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in</title>
+</head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+<style>
+    body {
+        background-image: url("photos/bkgimg.jpeg");
+    }
+
+    .alreadyauser {
+        color: wheat;
+        transform: translateX(60px) translateY(50px);
+
+    }
+
+    #Mainform {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #MainForm {
+        transform: translateX(370px) translateY(100px);
+    }
+
+    .form-floating {
+        margin-top: 20px;
+    }
+
+    #signin {
+        margin-top: 20px;
+    }
+</style>
+
+<body>
+    <form id="MainForm" class="w-25 m-4">
+        <div class="form-floating">
+            <input type="email" class="form-control" id="emailInp" placeholder="name@example.com">
+            <label for="floatingInput">Email address</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="passwordInp" placeholder="Password">
+            <label for="floatingPassword">Password</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="fnameInp" placeholder="Password">
+            <label for="floatingPassword">First Name</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="lnameInp" placeholder="Password">
+            <label for="floatingPassword">Last Name</label>
+        </div>
+        <!-- <button type="submit" class="btn btn-primary" style="float: right;">Create New User</button>  -->
+        <a href="login.html"><button type="submit" style="float: right;" class="btn btn-primary" id="signin">Sign
+                Up</button></a>
+        <div class="alreadyauser">
+            Already a User?<a href="login.html">Login</a>
+        </div>
+    </form>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+        const firebaseConfig = {
+            apiKey: "AIzaSyA9cTiQq8ezom4-HGal9yQVj6RQlsh5bfM",
+            authDomain: "movie-d1a51.firebaseapp.com",
+            projectId: "movie-d1a51",
+            databaseURL: "https://movie-d1a51-default-rtdb.firebaseio.com",
+            storageBucket: "movie-d1a51.appspot.com",
+            messagingSenderId: "353497878297",
+            appId: "1:353497878297:web:1427ef7520a7b71016bf88"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore();
+        const auth = getAuth(app);
+        
+        let EmailInp = document.getElementById("emailInp");
+        let PassInp = document.getElementById("passwordInp");
+        let FnameInp = document.getElementById("fnameInp");
+        let LnameInp = document.getElementById("lnameInp");
+        let MainForm = document.getElementById("MainForm");
+
+        let registeruser = evt =>{
+            evt.preventDefault();
+
+            createUserWithEmailAndPassword(auth, EmailInp.value, PassInp.value)
+                .then(async (credentials) => {
+                    var ref = doc(db, "UserAuthList", credentials.user.uid)
+                    // console.log(credentials);
+                    await setDoc(ref, {
+                        firstname: FnameInp.value,
+                        lastname: LnameInp.value
+                    })
+                    window.location.href = "frontpage.html"
+                })
+                .catch((error) => {
+                    alert(error.message);
+                    console.log(error.code);
+                    console.log(error.message);
+                })
+
+        }
+        MainForm.addEventListener("submit", registeruser)
+       
+
+    </script>
+</body>
+
+</html>

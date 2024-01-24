@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="cleartype" content="on">
+    <meta name="description" content="The Website is a popular, user editable database for movies and TV shows.">
+    <title>One Stop Movie</title>
+</head>
+<link rel="stylesheet" href="style.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+<!-- <script src="login.js" defer type="module"></script> -->
+<script src="api.js"></script>
+
+<body>
+    <nav>
+        <div class="logo">
+            <img src="photos/logo.png" alt="">
+        </div>
+
+        <div class="movieslist">
+            <div class="btn-group">
+                <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Movies
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" id="dropdown-popmovitem" href="links/popularmovies.html">Popular</a>
+                    </li>
+                    <li><a class="dropdown-item" id="dropdown-topmovitem" href="links/top_ratedmovies.html">Top
+                            Rated</a></li>
+                    <li><a class="dropdown-item" id="dropdown-upmovitem" href="links/latestmovies.html">Latest</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                </ul>
+
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    TV Shows
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" id="dropdown-poptvitem" href="links/populartvshows.html">Popular</a>
+                    </li>
+                    <li><a class="dropdown-item" id="dropdown-toptvitem" href="links/topratedtvshows.html">Top Rated</a>
+                    </li>
+                    <li><a class="dropdown-item" id="dropdown-uptvitem" href="links/latesttvshows.html">On TV</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                </ul>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    People
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" id="dropdown-popitem" href="links/popularpeople.html">Popular
+                            People</a></li>
+
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                </ul>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    More
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="links/Ratings.html" class="dropdown-item" id="dropdown-popmovitem">My Ratings</a>
+                    </li>
+                    <li><a href="links/Watchlist.html" class="dropdown-item" id="dropdown-popmovitem">MyWatchList</a>
+                    </li>
+                    <!-- <li><a href="links/filters.html" class="dropdown-item" id="dropdown-popmovitem">Filter</a>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+        <div class="searchbar">
+            <input type="text" placeholder="Enter Movie/TV Show/Person Name" id="searchinput">
+            <a href="links/searchmovie.html">
+                <button id="search-btn" class="btn btn-success" onclick="search()">Search</button>
+                <div id="searchResults" style="display: none;"></div>
+            </a>
+            
+            
+        </div>
+        <form class="signinbtn">
+            <button class="btn btn-outline-success" type="button" id="signinbutton"
+            onclick="login()">LogIn</button>
+            <button class="btn btn-outline-danger" type="button" id="signoutbutton"
+                onclick="signout()">SignOut</button>
+        </form>
+    </nav>
+    <div class="title-welcome">
+
+        <h2><b>Welcome.</b></h2>
+        <h3>Millions of Movies,TV shows and people to discover. Explore Now.</h3>
+    </div>
+    <div class="popular">
+        <div class="popularcontainer">
+            <h4><b>Popular </b></h4>
+            <div class="btn-group" id="mov-tv-type">
+                <button class="btn btn-primary" aria-current="page" onclick="popmovbutton()">Movies</button>
+                <button class="btn btn-primary" onclick="poptvbutton()">TV</button>
+            </div>
+            <!-- <button class="popularmovies">Movies</button>
+            <button class="populartvshows">TV</button> -->
+        </div>
+        <div id="popularmovies">
+            <div id="popmoviedata">
+            </div>
+            
+            <div id="poptvdata" style="display: none;"></div>
+        </div>
+      
+    </div>
+    <div class="toprated">
+        <div class="topratedcontainer">
+            <h4><b>Top Rated</b></h4>
+            <div class="btn-group" id="mov-tv-type">
+                <button class="btn btn-primary" aria-current="page" onclick="topmovbutton()">Movies</button>
+                <button class="btn btn-primary" onclick="toptvbutton()">TV</button>
+
+            </div>
+        </div>
+        <div id="top-ratedmovies">
+            <div id="topmoviedata"></div>
+            <div id="toptvdata" style="display: none;"></div>
+        </div>
+    </div>
+    <div class="upcoming">
+        <div class="upcomingcontainer">
+            <h4><b>Latest</b></h4>
+        </div>
+        <div id="upcomingmovies">
+
+        </div>
+    </div>
+
+    <footer>
+
+
+    </footer>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+        import { getFirestore, doc, setDoc, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyA9cTiQq8ezom4-HGal9yQVj6RQlsh5bfM",
+            authDomain: "movie-d1a51.firebaseapp.com",
+            projectId: "movie-d1a51",
+            databaseURL: "https://movie-d1a51-default-rtdb.firebaseio.com",
+            storageBucket: "movie-d1a51.appspot.com",
+            messagingSenderId: "353497878297",
+            appId: "1:353497878297:web:1427ef7520a7b71016bf88"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        // Get Auth instance
+        const auth = getAuth(app);
+
+        // Wait for authentication state changes
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in
+                const userId = user.uid;
+                console.log(userId);
+                localStorage.setItem("id", userId);
+            } else {
+                // No user is signed in
+                console.log("No user is signed in.");
+            }
+        });
+    </script>
+</body>
+<script>
+    function signout() {
+        sessionStorage.removeItem("user-cred");
+        sessionStorage.removeItem("user-info");
+        window.location.href = "login.html"
+    }
+</script>
+
+</html>

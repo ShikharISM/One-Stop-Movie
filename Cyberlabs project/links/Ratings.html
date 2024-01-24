@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Ratings</title>
+</head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+<style>
+    h2 {
+        color: rgb(4, 55, 97);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-weight: bold;
+    }
+    #ratedmoviescontainer {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        /* border: 1px solid red; */
+        height: inherit;
+        width: 100vw;
+    }
+    body{
+        overflow-x: hidden;
+    }
+    #watchlistcontainer h1 {
+        display: flex;
+        align-content: center;
+        justify-content: center;
+    }
+    .col-md-2-mb-2 {
+        width: auto;
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        font-size: larger;
+        font-weight: bold;
+        margin-top: 20px;
+        color: antiquewhite;
+        background-color:  rgb(4, 55, 97);
+    }
+
+    .remove-btn button {
+        background-color: red;
+        color: antiquewhite;
+        border-radius: 10px;
+        margin-top: 10px;
+        transform: translateX(250px);
+        height: 30px;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-weight: lighter;
+    }
+
+
+    nav {
+        display: flex;
+        flex-direction: row;
+        background-color: rgb(4, 55, 97);
+        height: 12vh;
+    }
+
+    .movieslist {
+        display: flex;
+        flex-direction: row;
+        z-index: 1;
+    }
+
+    .btn-group {
+        display: flex;
+        flex-direction: row;
+        transform: translateX(10px);
+        /* justify-content: center;
+        align-items: center; */
+        margin: 10px;
+    }
+
+    .logo img {
+        width: 277px;
+    }
+</style>
+
+<body>
+    <nav>
+        <div class="logo">
+            <img src="../photos/logo.png" alt="">
+        </div>
+
+        <div class="movieslist">
+            <div class="btn-group">
+                <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Movies
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" id="dropdown-popmovitem" href="popularmovies.html">Popular</a>
+                    </li>
+                    <li><a class="dropdown-item" id="dropdown-topmovitem" href="top_ratedmovies.html">Top
+                            Rated</a></li>
+                    <li><a class="dropdown-item" id="dropdown-upmovitem" href="latestmovies.html">Latest</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                </ul>
+
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    TV Shows
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" id="dropdown-poptvitem" href="populartvshows.html">Popular</a>
+                    </li>
+                    <li><a class="dropdown-item" id="dropdown-toptvitem" href="topratedtvshows.html">Top Rated</a>
+                    </li>
+                    <li><a class="dropdown-item" id="dropdown-uptvitem" href="latesttvshows.html">On TV</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                </ul>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    People
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" id="dropdown-popitem" href="popularpeople.html">Popular
+                            People</a></li>
+
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <h2>Movies/Tv Shows Rated By You </h2>
+    <div id="ratedmoviescontainer">
+
+    </div>
+
+
+</body>
+<script>
+    userId = localStorage.getItem("id");
+
+    const MovieName = []
+    for (i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith(userId) && key.endsWith('-rating')) {
+            const movieName = key.replace('-rating', '');
+            MovieName.push(movieName);
+        }
+    }
+    const movierating = []
+    for (i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith(userId) && key.endsWith('-rating')) {
+            const value = localStorage.getItem(key);
+            movierating.push(value)
+        }
+    }
+    console.log(MovieName);
+    console.log(movierating);
+
+    const API_KEY = 'api_key=92b02f3c7b0e895f6fcff7dcb83fcaf4';
+    const BASE_URL = 'https://api.themoviedb.org/3';
+    const IMG_URL = "https://image.tmdb.org/t/p/w500";
+    document.addEventListener("DOMContentLoaded", () => {
+        for (let i in MovieName&&movierating) {
+            var watchitems = localStorage.getItem(`${MovieName[i]}-ratingid`)
+            // console.log(watchitems);
+            if (watchitems !== null) {
+                movieid = watchitems
+                const movieurl = BASE_URL + `/movie/${watchitems}?` + API_KEY;
+                const tvurl = BASE_URL + `/tv/${watchitems}?` + API_KEY;
+                // movieid1.push(movieurl);
+                // console.log(movieid1);
+                async function movie() {
+                    // modalCounter++;
+                    let response = await fetch(movieurl);
+                    let data = await response.json();
+                    console.log(data);
+                    var rating = localStorage.getItem(`${MovieName[i]}-rating`)
+                    console.log(rating);
+                    var cardElement = document.createElement('div');
+                    cardElement.className = 'col-md-2-mb-2';
+                    cardElement.id = `${userId+data["title"]}`
+                    cardElement.innerHTML = `
+        
+                    <div class="card">
+            <a><img src="${IMG_URL + data["poster_path"]}" class="card-img-top" alt="No Image"></a>
+           <div class="card-body">
+           <h5 class="card-title">${data["title"]}</h5>
+           <h8 class="card-releasedate">Released On:<br>${data["release_date"]}</h8><br>
+           <div class="rating">Rating:${rating}</div>
+           <div class="remove-btn"><button class="removewatchlistbtn" id="${data["title"]}-removebtn">Remove Rating</button></div>
+
+            
+           </div>
+        </div>
+           `
+                    document.getElementById('ratedmoviescontainer').insertBefore(cardElement, document.getElementById('ratedmoviescontainer').firstChild);
+
+                    document.getElementById(`${data["title"]}-removebtn`).addEventListener("click", () => {
+                        document.getElementById(`${userId+ data['title']}`).remove();
+                        localStorage.removeItem(`${userId+ data['title']}-ratingid`)
+                        localStorage.removeItem(`${userId+ data['title']}-rating`)
+                    })
+                }
+                movie()
+
+            }
+
+        }
+        
+    })
+    const TvName = []
+    for (i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key &&  key.startsWith(userId) && key.endsWith('-tvrating')) {
+            // Extract the movie name from the key and add it to the array
+            const tvName = key.replace('-tvrating', '');
+            TvName.push(tvName);
+        }
+    }
+    const TvRating = []
+    for (i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith(userId) &&  key.endsWith('-tvrating')) {
+            // Extract the movie name from the key and add it to the array
+            const value = localStorage.getItem(key);
+            TvRating.push(value);
+        }
+    }
+    
+    console.log(TvName);
+    console.log(TvRating);
+    document.addEventListener("DOMContentLoaded", () => {
+    for (let i in TvName&&TvRating) {
+            var watchitems = localStorage.getItem(`${TvName[i]}-tvratingid`)
+            // console.log(watchitems);
+            if (watchitems !== null) {
+                movieid = watchitems
+                const movieurl = BASE_URL + `/movie/${watchitems}?` + API_KEY;
+                const tvurl = BASE_URL + `/tv/${watchitems}?` + API_KEY;
+                // movieid1.push(movieurl);
+                // console.log(movieid1);
+                async function movie() {
+                    // modalCounter++;
+                    let response = await fetch(tvurl);
+                    let data = await response.json();
+                    console.log(data);
+                    var rating = localStorage.getItem(`${TvName[i]}-tvrating`)
+                    console.log(rating);
+                    var cardElement = document.createElement('div');
+                    cardElement.className = 'col-md-2-mb-2';
+                    cardElement.id = `${userId+ data["original_name"]}`
+                    cardElement.innerHTML = `
+                    <div class="card">
+            <a><img src="${IMG_URL + data["poster_path"]}" class="card-img-top" alt="No Image"></a>
+           <div class="card-body">
+           <h5 class="card-title">${data["original_name"]}</h5>
+           <h8 class="card-releasedate">Released On:<br>${data["first_air_date"]}</h8><br>
+           <div class="rating">Rating:${rating}</div>
+           <div class="remove-btn"><button class="removewatchlistbtn" id="${data["original_name"]}-removebtn">Remove Rating</button></div>
+
+            
+           </div>
+        </div>
+           `
+                    document.getElementById('ratedmoviescontainer').insertBefore(cardElement, document.getElementById('ratedmoviescontainer').firstChild);
+
+                    document.getElementById(`${data["original_name"]}-removebtn`).addEventListener("click", () => {
+                        document.getElementById(`${userId+data['original_name']}`).remove();
+                        localStorage.removeItem(`${userId+data['original_name']}-tvratingid`)
+                        localStorage.removeItem(`${userId+data['original_name']}-tvrating`)
+                    })
+                }
+                movie()
+
+            }
+
+        }
+        
+    })
+    
+
+</script>
+
+</html>
